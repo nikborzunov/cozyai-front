@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, StatusBar, useColorScheme, TouchableOpacity, Animated, Vibration } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  useColorScheme,
+  TouchableOpacity,
+  Animated,
+  Vibration,
+  NativeModules,
+  Alert,
+} from 'react-native';
+
+const { SimpleModule } = NativeModules;
 
 const App = (): React.JSX.Element => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -27,6 +40,16 @@ const App = (): React.JSX.Element => {
     backgroundColor: isDarkMode ? '#121212' : '#F7F7F7',
   };
 
+  const handleGreet = async () => {
+    try {
+      const result = await SimpleModule.greet('пользователь');
+      Alert.alert('Swift ответ:', result);
+    } catch (error) {
+      Alert.alert('Ошибка:', (error as any).message || 'Не удалось вызвать модуль');
+    }
+  };
+
+
   return (
     <View style={[styles.container, backgroundStyle]}>
       <StatusBar
@@ -52,6 +75,12 @@ const App = (): React.JSX.Element => {
             </Text>
           </TouchableOpacity>
         </Animated.View>
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: isDarkMode ? '#607D8B' : '#6c757d' }]}
+          onPress={handleGreet}>
+          <Text style={styles.buttonText}>Поздороваться (Swift)</Text>
+        </TouchableOpacity>
 
         {isScanning && (
           <Text style={[styles.statusText, { color: isDarkMode ? '#BDBDBD' : '#666' }]}>
