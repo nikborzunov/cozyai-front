@@ -1,3 +1,5 @@
+// App.tsx
+
 import React, { useState } from 'react';
 import {
   View,
@@ -11,17 +13,20 @@ import {
   NativeModules,
   Alert,
 } from 'react-native';
+import { RoomScanner } from './RoomScannerView';
 
 const { SimpleModule } = NativeModules;
 
 const App = (): React.JSX.Element => {
   const isDarkMode = useColorScheme() === 'dark';
   const [isScanning, setIsScanning] = useState(false);
+  const [showARView, setShowARView] = useState(false);
 
   const buttonScale = new Animated.Value(1);
 
   const toggleScanning = () => {
     setIsScanning(!isScanning);
+    setShowARView(!isScanning);
     Vibration.vibrate(100);
 
     Animated.sequence([
@@ -88,6 +93,12 @@ const App = (): React.JSX.Element => {
           </Text>
         )}
       </View>
+
+      {showARView && (
+        <View style={{ flex: 1, width: '100%', height: '100%', position: 'absolute', top: 0 }}>
+          <RoomScanner style={{ flex: 1 }} />
+        </View>
+      )}
     </View>
   );
 };
