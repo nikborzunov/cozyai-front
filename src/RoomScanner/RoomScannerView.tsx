@@ -1,4 +1,4 @@
-// RoomScannerView.tsx
+// src/RoomScanner/RoomScannerView.tsx
 
 import {
   requireNativeComponent,

@@ -1,59 +1,48 @@
 // App.tsx
 
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  useColorScheme,
-  TouchableOpacity,
-  Animated,
-  Vibration,
-  NativeModules,
-  Alert,
-} from 'react-native';
-import { RoomScanner } from './RoomScannerView';
-
-const { SimpleModule } = NativeModules;
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { View, StyleSheet, StatusBar, useColorScheme, Animated, Vibration } from 'react-native';
+import Header from './src/components/Header';
+import Description from './src/components/Description';
+import ScanButton from './src/components/ScanButton';
+import GreetButton from './src/components/GreetButton';
+import StatusMessage from './src/components/StatusMessage';
+import ExitButton from './src/components/ExitButton';
+import RoomScannerContainer from './src/RoomScanner/RoomScannerContainer';
 
 const App = (): React.JSX.Element => {
   const isDarkMode = useColorScheme() === 'dark';
   const [isScanning, setIsScanning] = useState(false);
   const [showARView, setShowARView] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const buttonScale = new Animated.Value(1);
+  const buttonScale = useMemo(() => new Animated.Value(1), []);
 
-  const toggleScanning = () => {
-    setIsScanning(!isScanning);
-    setShowARView(!isScanning);
+  const toggleScanning = useCallback(() => {
+    setIsScanning((prev) => !prev);
+    setShowARView((prev) => !prev);
+    setLoading(true);
     Vibration.vibrate(100);
 
     Animated.sequence([
-      Animated.spring(buttonScale, {
-        toValue: 1.1,
-        useNativeDriver: true,
-      }),
-      Animated.spring(buttonScale, {
-        toValue: 1,
-        useNativeDriver: true,
-      }),
+      Animated.spring(buttonScale, { toValue: 1.1, useNativeDriver: true }),
+      Animated.spring(buttonScale, { toValue: 1, useNativeDriver: true }),
     ]).start();
-  };
+  }, [buttonScale]);
+
+  const exitAR = useCallback(() => {
+    setShowARView(false);
+    setIsScanning(false);
+    setLoading(false);
+  }, []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? '#121212' : '#F7F7F7',
   };
 
-  const handleGreet = async () => {
-    try {
-      const result = await SimpleModule.greet('пользователь');
-      Alert.alert('Swift ответ:', result);
-    } catch (error) {
-      Alert.alert('Ошибка:', (error as any).message || 'Не удалось вызвать модуль');
-    }
-  };
-
+  useEffect(() => {
+    if (isScanning && showARView) setLoading(true);
+  }, [isScanning, showARView]);
 
   return (
     <View style={[styles.container, backgroundStyle]}>
@@ -61,100 +50,38 @@ const App = (): React.JSX.Element => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <View style={styles.headerContainer}>
-        <Text style={[styles.headerText, { color: isDarkMode ? '#F7F7F7' : '#333' }]}>
-          Умный дизайнер интерьера
-        </Text>
-      </View>
+      <Header isDarkMode={isDarkMode} />
       <View style={styles.bodyContainer}>
-        <Text style={[styles.descriptionText, { color: isDarkMode ? '#D1D1D1' : '#333' }]}>
-          Начните сканировать ваше помещение для получения индивидуального плана расстановки мебели.
-        </Text>
-
-        <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: isDarkMode ? '#4CAF50' : '#007bff' }]}
-            onPress={toggleScanning}>
-            <Text style={styles.buttonText}>
-              {isScanning ? 'Остановить сканирование' : 'Начать сканирование'}
-            </Text>
-          </TouchableOpacity>
-        </Animated.View>
-
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: isDarkMode ? '#607D8B' : '#6c757d' }]}
-          onPress={handleGreet}>
-          <Text style={styles.buttonText}>Поздороваться (Swift)</Text>
-        </TouchableOpacity>
-
-        {isScanning && (
-          <Text style={[styles.statusText, { color: isDarkMode ? '#BDBDBD' : '#666' }]}>
-            Сканирование... Пожалуйста, подождите.
-          </Text>
-        )}
+        <Description isDarkMode={isDarkMode} />
+        <ScanButton
+          isDarkMode={isDarkMode}
+          isScanning={isScanning}
+          toggleScanning={toggleScanning}
+          scale={buttonScale}
+        />
+        <GreetButton isDarkMode={isDarkMode} />
+        <StatusMessage isDarkMode={isDarkMode} isScanning={isScanning} loading={loading} />
       </View>
 
-      {showARView && (
-        <View style={{ flex: 1, width: '100%', height: '100%', position: 'absolute', top: 0 }}>
-          <RoomScanner style={{ flex: 1 }} />
-        </View>
-      )}
+      <RoomScannerContainer
+        showARView={showARView}
+        loading={loading}
+        isDarkMode={isDarkMode}
+        onARReady={() => setLoading(false)}
+        onExit={exitAR}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  headerContainer: {
-    marginBottom: 40,
-  },
-  headerText: {
-    fontSize: 32,
-    fontWeight: '700',
-    fontFamily: 'Roboto',
-    textAlign: 'center',
+    flex: 1, justifyContent: 'flex-start', alignItems: 'center',
+    paddingTop: 80, paddingHorizontal: 20,
   },
   bodyContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    width: '100%',
-  },
-  descriptionText: {
-    fontSize: 18,
-    textAlign: 'center',
-    marginBottom: 30,
-    fontFamily: 'Roboto',
-  },
-  button: {
-    backgroundColor: '#007bff',
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 50,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: '#fff',
-    fontWeight: '600',
-    textAlign: 'center',
-    fontFamily: 'Roboto',
-  },
-  statusText: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 10,
-    fontFamily: 'Roboto',
+    justifyContent: 'center', alignItems: 'center',
+    paddingHorizontal: 20, width: '100%',
   },
 });
 

@@ -12,6 +12,7 @@ import React
 @objc(RoomScannerView)
 class RoomScannerView: UIView, ARSCNViewDelegate {
   private var sceneView: ARSCNView!
+  @objc var onReady: RCTDirectEventBlock?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -40,7 +41,12 @@ class RoomScannerView: UIView, ARSCNViewDelegate {
   }
 
   func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-    guard let meshAnchor = anchor as? ARMeshAnchor else { return }
-    print("Меш-объект добавлен: \(meshAnchor)")
+    guard anchor is ARMeshAnchor else { return }
+
+    DispatchQueue.main.async {
+      if let onReady = self.onReady {
+        onReady(["message": "AR Ready"])
+      }
+    }
   }
 }

@@ -8,4 +8,7 @@
 #import <React/RCTViewManager.h>
 
 @interface RCT_EXTERN_MODULE(RoomScannerViewManager, RCTViewManager)
+
+RCT_EXPORT_VIEW_PROPERTY(onReady, RCTDirectEventBlock)
+
 @end
