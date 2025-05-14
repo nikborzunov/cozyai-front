@@ -2,13 +2,12 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { View, StyleSheet, StatusBar, useColorScheme, Animated, Vibration } from 'react-native';
-import Header from './src/components/Header';
-import Description from './src/components/Description';
-import ScanButton from './src/components/ScanButton';
-import GreetButton from './src/components/GreetButton';
-import StatusMessage from './src/components/StatusMessage';
-import ExitButton from './src/components/ExitButton';
-import RoomScannerContainer from './src/RoomScanner/RoomScannerContainer';
+import Header from './components/Header';
+import Description from './components/Description';
+import ScanButton from './components/ScanButton';
+import GreetButton from './components/GreetButton';
+import StatusMessage from './components/StatusMessage';
+import RoomScannerContainer from './RoomScanner/RoomScannerContainer';
 
 const App = (): React.JSX.Element => {
   const isDarkMode = useColorScheme() === 'dark';
