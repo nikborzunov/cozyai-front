@@ -4,6 +4,24 @@ cozyai-front
 ├── __tests__
 │   └── App.test.tsx
 ├── assets
+├── ios
+│   ├── CozyAI
+│   │   ├── AppDelegate.swift
+│   │   ├── Info.plist
+│   │   ├── LaunchScreen.storyboard
+│   │   └── PrivacyInfo.xcprivacy
+│   ├── SwiftModules
+│   ├── .DS_Store
+│   ├── .xcode.env
+│   ├── .xcode.env.local
+│   ├── Podfile
+│   ├── Podfile.lock
+│   ├── RCTBridgeModule.swift
+│   ├── RoomScannerView.swift
+│   ├── RoomScannerViewManager.m
+│   ├── RoomScannerViewManager.swift
+│   ├── SimpleModule.m
+│   └── SimpleModule.swift
 ├── src
 │   ├── components
 │   │   ├── Description.tsx
@@ -12,16 +30,17 @@ cozyai-front
 │   │   ├── Header.tsx
 │   │   ├── ScanButton.tsx
 │   │   └── StatusMessage.tsx
-│   └── RoomScanner
-│       ├── RoomScannerContainer.tsx
-│       └── RoomScannerView.tsx
+│   ├── RoomScanner
+│   │   ├── RoomScannerContainer.tsx
+│   │   └── RoomScannerView.tsx
+│   └── App.tsx
 ├── .DS_Store
 ├── .eslintrc.js
 ├── .gitignore
 ├── .prettierrc.js
+├── .structureignore
 ├── .watchmanconfig
 ├── app.json
-├── App.tsx
 ├── babel.config.js
 ├── Gemfile
 ├── Gemfile.lock
@@ -32,5 +51,5 @@ cozyai-front
 ├── package.json
 ├── react-native.config.js
 ├── README.md
-├── RoomScannerView.tsx
+├── structure.md
 └── tsconfig.json

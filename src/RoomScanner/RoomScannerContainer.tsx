@@ -20,12 +20,21 @@ const RoomScannerContainer = ({
   onARReady,
   onExit,
 }: Props) => {
+  const handleMeshUpdate = (event: { nativeEvent: any }) => {
+    const vertices = event.nativeEvent.vertices;
+    console.log('Received mesh vertices:', vertices);
+  };
+
   if (!showARView) return null;
 
   return (
     <>
       <View style={styles.arContainer}>
-        <RoomScanner style={styles.arView} onReady={onARReady} />
+        <RoomScanner
+          style={styles.arView}
+          onReady={onARReady}
+          onMeshUpdate={handleMeshUpdate}
+        />
       </View>
 
       {loading ? (
@@ -39,7 +48,12 @@ const RoomScannerContainer = ({
 
 const styles = StyleSheet.create({
   arContainer: {
-    flex: 1, position: 'absolute', top: 0, left: 0, right: 0, bottom: 60,
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 60,
   },
   arView: {
     flex: 1,

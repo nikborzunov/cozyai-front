@@ -10,5 +10,6 @@
 @interface RCT_EXTERN_MODULE(RoomScannerViewManager, RCTViewManager)
 
 RCT_EXPORT_VIEW_PROPERTY(onReady, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMeshUpdate, RCTDirectEventBlock)
 
 @end

@@ -14,6 +14,7 @@ const { RoomScannerViewManager } = NativeModules;
 type NativeProps = {
   style?: ViewStyle;
   onReady?: () => void;
+  onMeshUpdate?: (event: { nativeEvent: any }) => void;
 };
 
 const COMPONENT_NAME = 'RoomScannerView';
@@ -27,15 +28,25 @@ export const RoomScanner = forwardRef((props: NativeProps, ref) => {
   }));
 
   useEffect(() => {
-    if (props.onReady) {
-      const eventEmitter = new NativeEventEmitter(RoomScannerViewManager);
-      const subscription = eventEmitter.addListener('onReady', props.onReady);
+    const eventEmitter = new NativeEventEmitter(RoomScannerViewManager);
+    let subscriptions: any[] = [];
 
-      return () => {
-        subscription.remove();
-      };
+    if (props.onReady) {
+      subscriptions.push(
+        eventEmitter.addListener('onReady', props.onReady)
+      );
     }
-  }, [props.onReady]);
+
+    if (props.onMeshUpdate) {
+      subscriptions.push(
+        eventEmitter.addListener('onMeshUpdate', props.onMeshUpdate)
+      );
+    }
+
+    return () => {
+      subscriptions.forEach((sub) => sub.remove());
+    };
+  }, [props.onReady, props.onMeshUpdate]);
 
   return <RoomScannerView ref={viewRef} {...props} />;
 });
