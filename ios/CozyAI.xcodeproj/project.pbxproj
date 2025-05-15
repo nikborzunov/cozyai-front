@@ -3,13 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0749C11A2DD4BF34000D8196 /* RoomScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0749C1192DD4BF32000D8196 /* RoomScannerView.swift */; };
-		0749C11C2DD4BF4C000D8196 /* RoomScannerViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0749C11B2DD4BF4A000D8196 /* RoomScannerViewManager.m */; };
-		0749C1202DD4C76E000D8196 /* RoomScannerViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0749C11F2DD4C76C000D8196 /* RoomScannerViewManager.swift */; };
 		07A7E4E82DD3767E0033A2E7 /* SimpleModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A7E4E52DD375010033A2E7 /* SimpleModule.swift */; };
 		07A7E4E92DD376830033A2E7 /* SimpleModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A7E4E72DD375440033A2E7 /* SimpleModule.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-CozyAI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-CozyAI.a */; };
@@ -20,9 +17,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0749C1192DD4BF32000D8196 /* RoomScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScannerView.swift; sourceTree = "<group>"; };
-		0749C11B2DD4BF4A000D8196 /* RoomScannerViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoomScannerViewManager.m; sourceTree = "<group>"; };
-		0749C11F2DD4C76C000D8196 /* RoomScannerViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScannerViewManager.swift; sourceTree = "<group>"; };
 		07A7E4E52DD375010033A2E7 /* SimpleModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleModule.swift; sourceTree = "<group>"; };
 		07A7E4E72DD375440033A2E7 /* SimpleModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleModule.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* CozyAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CozyAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +30,20 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CozyAI/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		073A08352DD6249100577F79 /* RoomScanner */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = RoomScanner;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
@@ -52,6 +60,7 @@
 		13B07FAE1A68108700A75B9A /* CozyAI */ = {
 			isa = PBXGroup;
 			children = (
+				073A08352DD6249100577F79 /* RoomScanner */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -80,9 +89,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				0749C11F2DD4C76C000D8196 /* RoomScannerViewManager.swift */,
-				0749C11B2DD4BF4A000D8196 /* RoomScannerViewManager.m */,
-				0749C1192DD4BF32000D8196 /* RoomScannerView.swift */,
 				07A7E4E72DD375440033A2E7 /* SimpleModule.m */,
 				07A7E4E52DD375010033A2E7 /* SimpleModule.swift */,
 				13B07FAE1A68108700A75B9A /* CozyAI */,
@@ -131,6 +137,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				073A08352DD6249100577F79 /* RoomScanner */,
 			);
 			name = CozyAI;
 			productName = CozyAI;
@@ -262,10 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07A7E4E92DD376830033A2E7 /* SimpleModule.m in Sources */,
-				0749C11C2DD4BF4C000D8196 /* RoomScannerViewManager.m in Sources */,
-				0749C1202DD4C76E000D8196 /* RoomScannerViewManager.swift in Sources */,
 				07A7E4E82DD3767E0033A2E7 /* SimpleModule.swift in Sources */,
-				0749C11A2DD4BF34000D8196 /* RoomScannerView.swift in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

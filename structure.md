@@ -10,16 +10,19 @@ cozyai-front
 │   │   ├── Info.plist
 │   │   ├── LaunchScreen.storyboard
 │   │   └── PrivacyInfo.xcprivacy
-│   ├── SwiftModules
+│   ├── RoomScanner
+│   │   ├── ARMeshHandler.swift
+│   │   ├── ARPlaneHandler.swift
+│   │   ├── ARSceneView.swift
+│   │   ├── RoomScannerView.swift
+│   │   ├── RoomScannerViewManager.m
+│   │   └── RoomScannerViewManager.swift
 │   ├── .DS_Store
 │   ├── .xcode.env
 │   ├── .xcode.env.local
 │   ├── Podfile
 │   ├── Podfile.lock
 │   ├── RCTBridgeModule.swift
-│   ├── RoomScannerView.swift
-│   ├── RoomScannerViewManager.m
-│   ├── RoomScannerViewManager.swift
 │   ├── SimpleModule.m
 │   └── SimpleModule.swift
 ├── src
