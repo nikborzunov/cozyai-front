@@ -1,58 +1,56 @@
 // src/RoomScanner/RoomScannerContainer.tsx
 
-import React from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { RoomScanner } from './RoomScannerView';
+import React, { useRef, useEffect } from 'react';
+import { View, StyleSheet, NativeSyntheticEvent } from 'react-native';
+import { RoomScanner, RoomScannerHandle } from './RoomScannerView';
 import ExitButton from '../components/ExitButton';
 
 type Props = {
-  showARView: boolean;
-  loading: boolean;
   isDarkMode: boolean;
-  onARReady: () => void;
   onExit: () => void;
+  onMeshUpdate?: (vertices: number[]) => void;
+  onRefReady?: (ref: React.MutableRefObject<RoomScannerHandle | null>) => void;
 };
 
-const RoomScannerContainer = ({
-  showARView,
-  loading,
+type MeshUpdateEvent = {
+  vertices: number[];
+};
+
+const RoomScannerContainer: React.FC<Props> = ({
   isDarkMode,
-  onARReady,
   onExit,
-}: Props) => {
-  const handleMeshUpdate = (event: { nativeEvent: any }) => {
+  onMeshUpdate,
+  onRefReady,
+}) => {
+  const scannerRef = useRef<RoomScannerHandle | null>(null);
+
+  useEffect(() => {
+    if (onRefReady) {
+      onRefReady(scannerRef);
+    }
+  }, [onRefReady]);
+
+  const handleMeshUpdate = (event: NativeSyntheticEvent<MeshUpdateEvent>) => {
     const vertices = event.nativeEvent.vertices;
     console.log('Received mesh vertices:', vertices);
+    onMeshUpdate?.(vertices);
   };
 
-  if (!showARView) return null;
-
   return (
-    <>
-      <View style={styles.arContainer}>
-        <RoomScanner
-          style={styles.arView}
-          onReady={onARReady}
-          onMeshUpdate={handleMeshUpdate}
-        />
-      </View>
-
-      {loading ? (
-        <ActivityIndicator size="large" color={isDarkMode ? '#FFFFFF' : '#000000'} />
-      ) : (
-        <ExitButton isDarkMode={isDarkMode} onExit={onExit} />
-      )}
-    </>
+    <View style={styles.arContainer}>
+      <RoomScanner
+        ref={scannerRef}
+        style={styles.arView}
+        onMeshUpdate={handleMeshUpdate}
+      />
+      <ExitButton isDarkMode={isDarkMode} onExit={onExit} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   arContainer: {
-    flex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
+    ...StyleSheet.absoluteFillObject,
     bottom: 60,
   },
   arView: {

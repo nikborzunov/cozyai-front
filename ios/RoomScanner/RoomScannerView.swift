@@ -24,6 +24,20 @@ class RoomScannerView: UIView, ARSCNViewDelegate, ARSessionDelegate {
     super.init(coder: coder)
     setupSceneView()
   }
+  
+  @objc func startSession() {
+    guard ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) else { return }
+
+    let config = ARWorldTrackingConfiguration()
+    config.sceneReconstruction = .mesh
+    config.environmentTexturing = .automatic
+    config.planeDetection = [.horizontal, .vertical]
+    sceneView.session.run(config, options: [.resetTracking, .removeExistingAnchors])
+  }
+
+  @objc func stopSession() {
+    sceneView.session.pause()
+  }
 
   private func setupSceneView() {
     sceneView = ARSCNView(frame: self.bounds)

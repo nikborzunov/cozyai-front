@@ -1,52 +1,64 @@
 // src/RoomScanner/RoomScannerView.tsx
 
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  Ref,
+} from 'react';
 import {
   requireNativeComponent,
-  ViewStyle,
   findNodeHandle,
-  NativeEventEmitter,
-  NativeModules,
+  UIManager,
+  ViewStyle,
+  NativeSyntheticEvent,
 } from 'react-native';
-import React, { forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
-
-const { RoomScannerViewManager } = NativeModules;
-
-type NativeProps = {
-  style?: ViewStyle;
-  onReady?: () => void;
-  onMeshUpdate?: (event: { nativeEvent: any }) => void;
-};
 
 const COMPONENT_NAME = 'RoomScannerView';
-const RoomScannerView = requireNativeComponent<NativeProps>(COMPONENT_NAME);
 
-export const RoomScanner = forwardRef((props: NativeProps, ref) => {
+type MeshUpdateEvent = {
+  vertices: number[];
+};
+
+type RoomScannerViewProps = {
+  style?: ViewStyle;
+  onMeshUpdate?: (event: NativeSyntheticEvent<MeshUpdateEvent>) => void;
+};
+
+export type RoomScannerHandle = {
+  start: () => void;
+  stop: () => void;
+  getNativeHandle: () => number | null;
+};
+
+const NativeRoomScannerView = requireNativeComponent<RoomScannerViewProps>(COMPONENT_NAME);
+
+export const RoomScanner = forwardRef((props: RoomScannerViewProps, ref: Ref<RoomScannerHandle>) => {
   const viewRef = useRef(null);
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, (): RoomScannerHandle => ({
+    start: () => {
+      const viewId = findNodeHandle(viewRef.current);
+      if (viewId) {
+        UIManager.dispatchViewManagerCommand(
+          viewId,
+          UIManager.getViewManagerConfig(COMPONENT_NAME).Commands?.startSession ?? 0,
+          [],
+        );
+      }
+    },
+    stop: () => {
+      const viewId = findNodeHandle(viewRef.current);
+      if (viewId) {
+        UIManager.dispatchViewManagerCommand(
+          viewId,
+          UIManager.getViewManagerConfig(COMPONENT_NAME).Commands?.stopSession ?? 1,
+          [],
+        );
+      }
+    },
     getNativeHandle: () => findNodeHandle(viewRef.current),
   }));
 
-  useEffect(() => {
-    const eventEmitter = new NativeEventEmitter(RoomScannerViewManager);
-    let subscriptions: any[] = [];
-
-    if (props.onReady) {
-      subscriptions.push(
-        eventEmitter.addListener('onReady', props.onReady)
-      );
-    }
-
-    if (props.onMeshUpdate) {
-      subscriptions.push(
-        eventEmitter.addListener('onMeshUpdate', props.onMeshUpdate)
-      );
-    }
-
-    return () => {
-      subscriptions.forEach((sub) => sub.remove());
-    };
-  }, [props.onReady, props.onMeshUpdate]);
-
-  return <RoomScannerView ref={viewRef} {...props} />;
+  return <NativeRoomScannerView ref={viewRef} {...props} />;
 });

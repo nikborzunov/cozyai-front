@@ -12,4 +12,7 @@
 RCT_EXPORT_VIEW_PROPERTY(onReady, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onMeshUpdate, RCTDirectEventBlock)
 
+RCT_EXTERN_METHOD(startSession:(nonnull NSNumber *)reactTag)
+RCT_EXTERN_METHOD(stopSession:(nonnull NSNumber *)reactTag)
+
 @end
