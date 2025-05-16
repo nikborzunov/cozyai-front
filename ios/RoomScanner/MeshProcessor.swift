@@ -5,12 +5,15 @@
 //  Created by God of Code on 5/16/25.
 //
 
+// MeshProcessor.swift
 import ARKit
 
 class MeshProcessor {
   static func convertMeshToJSON(mesh: ARMeshGeometry) -> [String: Any] {
     var vertices: [[Float]] = []
     let vertexCount = mesh.vertices.count
+    guard vertexCount > 0 else { return [:] }
+
     let vertexBuffer = mesh.vertices.buffer
     let vertexOffset = mesh.vertices.offset
     let vertexStride = mesh.vertices.stride
