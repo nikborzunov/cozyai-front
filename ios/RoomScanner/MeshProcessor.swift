@@ -10,20 +10,18 @@ import ARKit
 
 class MeshProcessor {
   static func convertMeshToJSON(mesh: ARMeshGeometry) -> [String: Any] {
+    guard mesh.vertices.count > 0 else { return [:] }
+
     var vertices: [[Float]] = []
-    let vertexCount = mesh.vertices.count
-    guard vertexCount > 0 else { return [:] }
+    let buffer = mesh.vertices.buffer
+    let offset = mesh.vertices.offset
+    let stride = mesh.vertices.stride
+    let pointer = buffer.contents()
 
-    let vertexBuffer = mesh.vertices.buffer
-    let vertexOffset = mesh.vertices.offset
-    let vertexStride = mesh.vertices.stride
-
-    let rawPointer = vertexBuffer.contents()
-    for i in 0..<vertexCount {
-      let pointer = rawPointer.advanced(by: vertexOffset + i * vertexStride)
-      let float3Pointer = pointer.bindMemory(to: simd_float3.self, capacity: 1)
-      let vertex = float3Pointer.pointee
-      vertices.append([vertex.x, vertex.y, vertex.z])
+    for i in 0..<mesh.vertices.count {
+      let vertexPointer = pointer.advanced(by: offset + i * stride).bindMemory(to: simd_float3.self, capacity: 1)
+      let v = vertexPointer.pointee
+      vertices.append([v.x, v.y, v.z])
     }
 
     return ["vertices": vertices]
