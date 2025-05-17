@@ -14,7 +14,7 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 
-const COMPONENT_NAME = 'RoomScannerView';
+const COMPONENT_NAME = 'RoomScanView';
 
 type MeshUpdateEvent = {
   vertices: number[];

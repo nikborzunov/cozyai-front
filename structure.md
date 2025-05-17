@@ -5,31 +5,34 @@ cozyai-front
 │   └── App.test.tsx
 ├── assets
 ├── ios
+│   ├── Bridge
+│   │   ├── RoomScanViewManager.m
+│   │   └── RoomScanViewManager.swift
 │   ├── CozyAI
 │   │   ├── AppDelegate.swift
 │   │   ├── Info.plist
 │   │   ├── LaunchScreen.storyboard
 │   │   └── PrivacyInfo.xcprivacy
-│   ├── RoomScanner
-│   │   ├── ARMeshHandler.swift
-│   │   ├── ARPlaneHandler.swift
-│   │   ├── ARSceneView.swift
-│   │   ├── RoomScannerView.swift
-│   │   ├── RoomScannerViewManager.m
-│   │   └── RoomScannerViewManager.swift
+│   ├── Modules
+│   │   └── ARScan
+│   │       ├── Processing
+│   │       │   ├── MeshDataConverter.swift
+│   │       │   └── MeshDataStreamer.swift
+│   │       ├── Rendering
+│   │       │   ├── SurfaceHighlighter.swift
+│   │       │   └── SurfaceVisualizer.swift
+│   │       ├── ARSessionManager.swift
+│   │       └── RoomScanView.swift
 │   ├── .DS_Store
 │   ├── .xcode.env
 │   ├── .xcode.env.local
 │   ├── Podfile
 │   ├── Podfile.lock
-│   ├── RCTBridgeModule.swift
-│   ├── SimpleModule.m
-│   └── SimpleModule.swift
+│   └── RCTBridgeModule.swift
 ├── src
 │   ├── components
 │   │   ├── Description.tsx
 │   │   ├── ExitButton.tsx
-│   │   ├── GreetButton.tsx
 │   │   ├── Header.tsx
 │   │   ├── ScanButton.tsx
 │   │   └── StatusMessage.tsx

@@ -28,7 +28,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		073A08352DD6249100577F79 /* RoomScanner */ = {
+		072596CA2DD8DEB80092AC2C /* Modules */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 			);
@@ -36,7 +36,18 @@
 			};
 			explicitFolders = (
 			);
-			path = RoomScanner;
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		072596D12DD8DF220092AC2C /* Bridge */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = Bridge;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -56,7 +67,8 @@
 		13B07FAE1A68108700A75B9A /* CozyAI */ = {
 			isa = PBXGroup;
 			children = (
-				073A08352DD6249100577F79 /* RoomScanner */,
+				072596D12DD8DF220092AC2C /* Bridge */,
+				072596CA2DD8DEB80092AC2C /* Modules */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -133,7 +145,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				073A08352DD6249100577F79 /* RoomScanner */,
+				072596CA2DD8DEB80092AC2C /* Modules */,
+				072596D12DD8DF220092AC2C /* Bridge */,
 			);
 			name = CozyAI;
 			productName = CozyAI;
